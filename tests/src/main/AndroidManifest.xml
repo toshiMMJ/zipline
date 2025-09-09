@@ -4,10 +4,11 @@
     package="com.squareup.duktape.tests"
     >
   <application android:allowBackup="false">
-    <activity
-        android:name=".OctaneActivity"
-        android:label="Duktape: Octane"
-        >
+  <activity
+    android:name=".OctaneActivity"
+    android:label="Duktape: Octane"
+    android:exported="true"
+    >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>

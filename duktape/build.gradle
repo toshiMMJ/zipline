@@ -1,17 +1,18 @@
-apply plugin: 'com.android.library'
+plugins {
+  id 'com.android.library'
+}
 
 android {
-  compileSdkVersion rootProject.ext.compileSdkVersion
-  buildToolsVersion rootProject.ext.buildToolsVersion
+    namespace 'com.squareup.duktape'
+    compileSdk rootProject.ext.compileSdkVersion
+    ndkVersion rootProject.ext.ndkVersion
 
   defaultConfig {
-    minSdkVersion 12
-    targetSdkVersion 28
-    versionCode 1
-    versionName "1.0"
-    ndk {
-      abiFilters(*rootProject.ext.ndkAbiFilters)
-    }
+    minSdk 28
+    targetSdk 36
+//     ndk {
+//       abiFilters(*rootProject.ext.ndkAbiFilters)
+//     }
     externalNativeBuild {
       cmake {
         arguments '-DANDROID_TOOLCHAIN=clang', '-DANDROID_STL=c++_static'
@@ -47,21 +48,27 @@ android {
 }
 
 dependencies {
-  implementation 'com.android.support:support-annotations:27.1.1'
+  implementation 'androidx.annotation:annotation:1.7.1'
 }
 
 task sourcesJar(type: Jar) {
   from android.sourceSets.main.java.srcDirs
-  classifier = 'sources'
+  archiveClassifier = 'sources'
 }
 
 task javadoc(type: Javadoc) {
-  source = android.sourceSets.main.java.srcDirs
-  classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+  source = fileTree(dir: "src/main/java", include: "**/*.java")
+  classpath += files(android.bootClasspath)
+  doFirst {
+    def releaseCp = configurations.findByName("releaseCompileClasspath")
+    if (releaseCp != null) classpath += files(releaseCp)
+    def debugCp = configurations.findByName("debugCompileClasspath")
+    if (debugCp != null) classpath += files(debugCp)
+  }
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-  classifier = 'javadoc'
+  archiveClassifier = 'javadoc'
   from javadoc.destinationDir
 }
 
