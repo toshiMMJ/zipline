@@ -16,3 +16,5 @@ duktape/.externalNativeBuild
 
 # Steve Jobs
 .DS_Store
+
+.cxx
