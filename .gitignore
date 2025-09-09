@@ -18,3 +18,4 @@ duktape/.externalNativeBuild
 .DS_Store
 
 .cxx
+zipline-releases
