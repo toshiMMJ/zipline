@@ -3,6 +3,11 @@ Duktape Android
 
 The [Duktape embeddable JavaScript engine][duk] packaged for Android.
 
+* I created a branch from 1.3.0.
+* It was compiled with NDK28 and the page size of the native library was set to 16KB.
+
+
+
 Usage
 -----
 
