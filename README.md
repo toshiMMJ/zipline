@@ -1,11 +1,11 @@
+### This repository was branched from duktape-android 1.3.0.
+### It was compiled with NDK28 and the page size of the native library was set to 16KB.
+
+
 Duktape Android
 ===============
 
 The [Duktape embeddable JavaScript engine][duk] packaged for Android.
-
-* I created a branch from 1.3.0.
-* It was compiled with NDK28 and the page size of the native library was set to 16KB.
-
 
 
 Usage
@@ -116,31 +116,37 @@ String greeting = utf8.fromHex("EC9588EB8595ED9598EC84B8EC9A9421");
 Log.d("Greeting", greeting);
 ```
 
-Download
---------
-
-```groovy
-compile 'com.squareup.duktape:duktape-android:1.3.0'
-```
-
-This library is provided as a "fat" aar with native binaries for all available architectures. To
-reduce your APK size, use the ABI filtering/splitting techniques in the Android plugin:
-http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
-
-Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
-
-
 Building
 --------
 
 ## For Android
 
+```bash
+./releasse.sh
 ```
-./gradlew build
+When you run the script, it will create an aar file and a local maven directory called "zipline-releases".
+
+
+
+Download
+--------
+
+```groovy
+allprojects {
+    repositories {
+        mavenCentral()
+        google()
+        maven { url "$rootDir/../zipline/zipline-releases" }
+        ,,,
+    }
+...
 ```
 
-Set the `java.library.path` system property to `build/` when you execute Java.
+```groovy
+implementation 'com.squareup.duktape:duktape:1.3.0.1'
+```
 
+Add the local maven repository to the build.gradle file.
 
 License
 -------
@@ -165,6 +171,5 @@ Note: The included C code from Duktape is licensed under MIT.
 
 
  [duk]: http://duktape.org/
- [snap]: https://oss.sonatype.org/content/repositories/snapshots/
  [okio]: https://github.com/square/okio/blob/master/okio/src/main/java/okio/ByteString.java
  [dukdec]: http://duktape.org/guide.html#builtin-duktape-dec
